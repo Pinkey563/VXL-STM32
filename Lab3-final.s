@@ -10,7 +10,7 @@ RCC EQU 0x40021000
 
 __main
    ;Set up
-   ;enaBLe clock port A,B
+   ;Enable clock port A,B
    LDR r3,=RCC
    MOV32 r0,#0x0C
    STR r0,[r3,#0x18]
@@ -36,9 +36,9 @@ __main
    MOV32 r6,#2000000 ;2s->0.5Hz
    MOV32 r8,#10000 ;100hz
 kiemtra
-   LDR r0,[r1,#0x08]; Kiem tra A0(Breathe Switch)
+   LDR r0,[r1,#0x08]; Kiem tra A0
    ANDS r0,r0,#0x01
-   BEQ next ;Kiem tra A1(Change Switch)
+   BEQ next ; Kiem tra A1
    BL breathing
    b kiemtra
 
@@ -50,11 +50,11 @@ while ; stop oscilation
    LDR r0,[r1,#0x08]
    ANDS r0,r0,#0x02
    BNE while
-; Kiem tra neu tha nut Change 
+; Kiem tra neu nha nut Change ra
    MOV32 r4,#400000;20%
    ADD r5,r5,r4
-   CMP r5,r6 ;neu dang o 90% duty cycle thi chuyen duty cycle sang 10%
-   BLs this 
+   CMP r5,r6 ; Neu duty cycle dang 90% thi se nhay sang 10%
+   BLS this 
    MOV32 r5,#200000;10%
 this   BL toggle
    b kiemtra
@@ -91,8 +91,8 @@ breathing
    ADD r3,r7,#200
 for
    CMP r7,r3
-   bge return3
-   LDR r0,[r1,#0x08]; co the bo 107-109
+   BGE return3
+   LDR r0,[r1,#0x08]; Co the bo line 107-109
    ANDS r0,#0x01
    BEQ return3
    BL breathloop
@@ -109,7 +109,7 @@ breathloop
    push {lr}
 for2
    CMP r5,#2 ; lap 2 lan tai duty cycle tai [r7]
-   bgt donebreath
+   BGT donebreath
    LDR r0,[r1,#0x08] ; kiem tra nut A0 
    ANDS r0,#0x01
    BEQ donebreath
